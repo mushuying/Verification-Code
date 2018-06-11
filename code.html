@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+    </style>
+</head>
+<body style="background:rgba(0,0,0,.4);width:100%;height:100%;">
+    <canvas id="c" style="background: #fff;margin:0 auto;display:block;margin-top:10px;" width="100" height="40"></canvas>
+    <script>
+        window.onload = function() {
+            var c = document.getElementById('c');
+            var ctx = c.getContext('2d');
+            var letterStr = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,0,1,2,3,4,5,6,7,8,9".split(',');
+            function getRandomWord() {
+                var res = [];
+                for (var i = 0; i <= 5; i++) {
+                    var random = Math.ceil(Math.random() * 61);
+                    res.push(letterStr[random]);
+                }
+                return res;
+            }
+            function angle() {
+                return Math.ceil(Math.random() * 10) - 5;
+            }
+            function color(num) {
+                num = num ? num : 1;
+                return 'rgba(' + Math.ceil(Math.random() * 255) + ',' + Math.ceil(Math.random() * 255) + ',' + Math.ceil(Math.random() * 255) + ',' + num + ')'
+            }
+            function drawImg(ctx) {
+                ctx.clearRect(0, 0, 100, 40);
+                for (var i = 0; i < 150; i++) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = color(.8);
+                    var random1 = Math.ceil(Math.random() * 100);
+                    var random2 = Math.ceil(Math.random() * 40);
+                    ctx.moveTo(random1, random2);
+                    ctx.lineTo(random1 + 1, random2 + 1);
+                    ctx.stroke();
+                }
+                var randomWord = getRandomWord();
+                for (var i = 0; i < randomWord.length; i++) {
+                    angle();
+                    color();
+                    ctx.font = '12px 宋体';
+                    ctx.fillStyle = color();
+                    ctx.fillText(randomWord[i], i * 14 + Math.ceil(Math.random() * 5) + 5, Math.ceil(Math.random() * 18) + 15);
+                }
+                for (var i = 0; i < 5; i++) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = color(.4);
+                    ctx.moveTo(Math.ceil(Math.random() * 100), Math.ceil(Math.random() * 40));
+                    ctx.lineTo(Math.ceil(Math.random() * 100), Math.ceil(Math.random() * 40));
+                    ctx.stroke();
+                }
+                ctx.beginPath();
+                ctx.strokeStyle = color(.6);
+                ctx.moveTo(Math.ceil(Math.random() * 10), Math.ceil(Math.random() * 10));
+                ctx.bezierCurveTo(Math.ceil(Math.random() * 20) + 30, Math.ceil(Math.random() * 30) + 20, Math.ceil(Math.random() * 30) + 20, -Math.ceil(Math.random() * 10), Math.ceil(Math.random() * 10) + 90, Math.ceil(Math.random() * 10) + 20);
+                ctx.stroke();
+                return {
+                    lower: randomWord.join('').toLowerCase(),
+                    upper: randomWord.join('').toUpperCase()
+                };
+            }
+            console.log(drawImg(ctx));
+            c.onclick = function () {
+                console.log(drawImg(ctx));
+            }
+        }
+    </script>
+</body>
+</html>
